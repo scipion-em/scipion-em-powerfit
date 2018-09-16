@@ -28,7 +28,7 @@ This sub-package contains data and protocol classes
 wrapping Powerfit programs https://github.com/haddocking/powerfit
 """
 
-_logo = "powerfit_logo.gif"
+_logo = "powerfit_logo.png"
 
 from bibtex import _bibtex # Load bibtex dict with references
 ##from powerfit import *
