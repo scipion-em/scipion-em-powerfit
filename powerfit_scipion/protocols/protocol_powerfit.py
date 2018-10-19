@@ -26,10 +26,8 @@
 # **************************************************************************
 
 from pyworkflow.em import *
-from pyworkflow.em.headers import adaptFileToCCP4, \
-    ORIGIN
-from pyworkflow.em.viewers.chimera_utils import \
-    createCoordinateAxisFile
+from pyworkflow.em.headers import (adaptFileToCCP4, ORIGIN)
+from pyworkflow.em.viewers.chimera_utils import createCoordinateAxisFile
 from pyworkflow.protocol.constants import LEVEL_ADVANCED
 from pyworkflow.utils import *
 
@@ -107,7 +105,7 @@ class PowerfitProtRigidFit(ProtFitting3D):
             args += " -l"
         if self.doCoreWeight:
             args += " -cw"
-        self.runJob("powerfit", args)
+        self.runJob('powerfit', args)
 
         # Construct the chimera viewers
         dim = volume.getDim()[0]
