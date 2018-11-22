@@ -24,10 +24,10 @@
 # *  e-mail address 'scipion@cnb.csic.es'
 # *
 # **************************************************************************
-
+import os
 from pyworkflow.em import *
-from pyworkflow.em.headers import (adaptFileToCCP4, ORIGIN)
-from pyworkflow.em.viewers.chimera_utils import createCoordinateAxisFile
+from pyworkflow.em.convert import Ccp4Header
+from pyworkflow.em.viewers.viewer_chimera import createCoordinateAxisFile
 from pyworkflow.protocol.constants import LEVEL_ADVANCED
 from pyworkflow.utils import *
 
@@ -90,7 +90,7 @@ class PowerfitProtRigidFit(ProtFitting3D):
         origin = volume.getOrigin(force=True).getShifts()
 
         # powerfit needs offset in origin
-        adaptFileToCCP4(volume.getFileName(), localInputVol,
+        Ccp4Header.fixFile(volume.getFileName(), localInputVol,
                         origin, sampling, ORIGIN)
         args = "%s %f %s -d %s -p %d -a %f -n %d" % (localInputVol,
                                                      self.resolution,
