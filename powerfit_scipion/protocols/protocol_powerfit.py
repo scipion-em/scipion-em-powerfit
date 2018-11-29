@@ -27,7 +27,7 @@
 import os
 from pyworkflow.em import *
 from pyworkflow.em.convert import Ccp4Header
-from pyworkflow.em.viewers.viewer_chimera import createCoordinateAxisFile
+from pyworkflow.em.viewers.viewer_chimera import Chimera
 from pyworkflow.protocol.constants import LEVEL_ADVANCED
 from pyworkflow.utils import *
 
@@ -91,7 +91,7 @@ class PowerfitProtRigidFit(ProtFitting3D):
 
         # powerfit needs offset in origin
         Ccp4Header.fixFile(volume.getFileName(), localInputVol,
-                        origin, sampling, ORIGIN)
+                        origin, sampling, Ccp4Header.ORIGIN)
         args = "%s %f %s -d %s -p %d -a %f -n %d" % (localInputVol,
                                                      self.resolution,
                                                      self.inputPDB.get().
@@ -110,7 +110,7 @@ class PowerfitProtRigidFit(ProtFitting3D):
         # Construct the chimera viewers
         dim = volume.getDim()[0]
         bildFileName = os.path.abspath(self._getExtraPath("axis.bild"))
-        createCoordinateAxisFile(dim,
+        Chimera.createCoordinateAxisFile(dim,
                                  bildFileName=bildFileName,
                                  sampling=sampling)
 

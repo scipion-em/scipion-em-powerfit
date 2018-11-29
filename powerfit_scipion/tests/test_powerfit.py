@@ -34,13 +34,13 @@ from pyworkflow.em.protocol.protocol_import import (ProtImportPdb,
 
 from powerfit_scipion.protocols import PowerfitProtRigidFit
 
-ChimeraProtRigidFit = importFromPlugin('chimera.protocols.protocol_fit',
-                                       'ChimeraProtRigidFit', doRaise=True)
-
-CootRefine = importFromPlugin('ccp4.protocols.protocol_coot', 'CootRefine',
-                              doRaise=True)
-CCP4ProtRunRefmac = importFromPlugin('ccp4.protocols.protocol_refmac',
-                                     'CCP4ProtRunRefmac')
+# ChimeraProtRigidFit = importFromPlugin('chimera.protocols.protocol_fit',
+#                                        'ChimeraProtRigidFit', doRaise=True)
+#
+# CootRefine = importFromPlugin('ccp4.protocols.protocol_coot', 'CootRefine',
+#                               doRaise=True)
+# CCP4ProtRunRefmac = importFromPlugin('ccp4.protocols.protocol_refmac',
+#                                      'CCP4ProtRunRefmac')
 
 
 class TestImportBase(BaseTest):
