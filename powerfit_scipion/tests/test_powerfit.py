@@ -26,15 +26,21 @@
 # volume or a unit cell extracted from a map volume. Here we are going to test
 # the protocol of rigid fitting powerfit
 
-from pyworkflow.em.packages.chimera.protocol_fit import ChimeraProtRigidFit
-from pyworkflow.em.packages.powerfit.protocol_powerfit import \
-    PowerfitProtRigidFit
-from pyworkflow.em.protocol.protocol_import import ProtImportPdb, \
-    ProtImportVolumes
-from pyworkflow.em.packages.ccp4.protocol_coot import CootRefine
-from pyworkflow.em.packages.ccp4.protocol_refmac import CCP4ProtRunRefmac
-from pyworkflow.tests import *
 import os.path
+from pyworkflow.tests import *
+from pyworkflow.utils import importFromPlugin
+from pyworkflow.em.protocol.protocol_import import (ProtImportPdb,
+                                                    ProtImportVolumes)
+
+from powerfit_scipion.protocols import PowerfitProtRigidFit
+
+# ChimeraProtRigidFit = importFromPlugin('chimera.protocols.protocol_fit',
+#                                        'ChimeraProtRigidFit', doRaise=True)
+#
+# CootRefine = importFromPlugin('ccp4.protocols.protocol_coot', 'CootRefine',
+#                               doRaise=True)
+# CCP4ProtRunRefmac = importFromPlugin('ccp4.protocols.protocol_refmac',
+#                                      'CCP4ProtRunRefmac')
 
 
 class TestImportBase(BaseTest):

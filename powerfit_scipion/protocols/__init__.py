@@ -1,6 +1,6 @@
 # **************************************************************************
 # *
-# * Authors:     Carlos Oscar Sorzano (coss@cnb.csic.es)
+# * Authors:    Yunior C. Fonseca Reyna (cfonseca@cnb.csic.es)
 # *
 # * Unidad de  Bioinformatica of Centro Nacional de Biotecnologia , CSIC
 # *
@@ -23,16 +23,5 @@
 # *  e-mail address 'scipion@cnb.csic.es'
 # *
 # **************************************************************************
-"""
-This sub-package contains data and protocol classes
-wrapping Powerfit programs https://github.com/haddocking/powerfit
-"""
 
-_logo = "powerfit_logo.png"
-
-from bibtex import _bibtex # Load bibtex dict with references
-##from powerfit import *
 from protocol_powerfit import PowerfitProtRigidFit
-from viewer_powerfit import PowerfitProtRigidFitViewer
-
-from wizard import PowerFitPDBVolumeWizard

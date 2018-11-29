@@ -1,8 +1,8 @@
 # **************************************************************************
 # *
-# * Authors:     Carlos Oscar Sorzano (coss@cnb.csic.es)
+# * Authors:    Yunior C. Fonseca Reyna (cfonseca@cnb.csic.es)
 # *
-# * Unidad de Bioinformatica of Centro Nacional de Biotecnologia , CSIC
+# * Unidad de  Bioinformatica of Centro Nacional de Biotecnologia , CSIC
 # *
 # * This program is free software; you can redistribute it and/or modify
 # * it under the terms of the GNU General Public License as published by
@@ -23,17 +23,5 @@
 # *  e-mail address 'scipion@cnb.csic.es'
 # *
 # **************************************************************************
-"""
-This module implement some wizards
-"""
 
-
-from pyworkflow.em.wizard import *
-from pyworkflow.em.packages.powerfit.protocol_powerfit import PowerfitProtRigidFit
-
-#===============================================================================
-# DOWNSAMPLING
-#===============================================================================
-
-class PowerFitPDBVolumeWizard(PDBVolumeWizard):
-    _targets = [(PowerfitProtRigidFit, ['inputVol'])]
+from test_powerfit import TestImportBase, TestImportData, TestPowerFit

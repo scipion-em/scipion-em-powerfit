@@ -25,11 +25,10 @@
 # *
 # **************************************************************************
 
-import os
 from pyworkflow.viewer import DESKTOP_TKINTER, WEB_DJANGO, ProtocolViewer
-from pyworkflow.em.viewer import ChimeraView, ObjectView
-from pyworkflow.em.showj import MODE, MODE_MD, ORDER, VISIBLE, SORT_BY
-from protocol_powerfit import PowerfitProtRigidFit
+from pyworkflow.em.viewers import ChimeraView, ObjectView
+from pyworkflow.em.viewers.showj import MODE, MODE_MD, ORDER, VISIBLE, SORT_BY
+from powerfit_scipion.protocols import PowerfitProtRigidFit
 import pyworkflow.protocol.params as params
 
 
