@@ -11,3 +11,7 @@ http://www.bonvinlab.org/education/powerfit/
 INSTALLATION:
 see wiki (https://github.com/scipion-em/scipion-em-powerfit/wiki)
 
+Build status:
+![alt text](http://heisenberg.cnb.csic.es:9980/badges/powerfit_devel.svg)
+
+Builbot_URL: http://heisenberg.cnb.csic.es:9980/#/builders/30
