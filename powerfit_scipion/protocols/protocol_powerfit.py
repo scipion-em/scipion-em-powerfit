@@ -44,7 +44,7 @@ class PowerfitProtRigidFit(ProtFitting3D):
     # --------------------------- DEFINE param functions ----------------------
     def _defineParams(self, form):
         form.addSection(label='Input')
-        form.addParam('inputPDB', PointerParam, pointerClass='PdbFile',
+        form.addParam('inputPDB', PointerParam, pointerClass='AtomStruct',
                       label="Input PDBx/mmCIF", important=True)
         form.addParam('inputVol', PointerParam, pointerClass='Volume',
                       label="Input volume", important=True, allowsNull=True)
@@ -146,21 +146,21 @@ class PowerfitProtRigidFit(ProtFitting3D):
                                          Float(tokens[3]))
                 lineCounter += 1
 
-        setOfPDBs = self._createSetOfPDBs()
+        SetOfAtomStructs = self._createSetOfPDBs()
 
         for n in range(self.nModels.get()):
             fnPdb = self._getExtraPath("fit_%d.pdb" % (n + 1))
             if exists(fnPdb):
-                pdb = PdbFile(fnPdb)
+                pdb = AtomStruct(fnPdb)
                 pdb.setVolume(volume)
                 pdb._powerfit_cc = qualifiers[fnPdb][0]
                 pdb._powerfit_Fish_z = qualifiers[fnPdb][1]
                 pdb._powerfit_rel_z = qualifiers[fnPdb][2]
-                setOfPDBs.append(pdb)
+                SetOfAtomStructs.append(pdb)
 
-        self._defineOutputs(outputPDBs=setOfPDBs)
-        self._defineSourceRelation(self.inputPDB.get(), setOfPDBs)
-        self._defineSourceRelation(volume, setOfPDBs)
+        self._defineOutputs(outputPDBs=SetOfAtomStructs)
+        self._defineSourceRelation(self.inputPDB.get(), SetOfAtomStructs)
+        self._defineSourceRelation(volume, SetOfAtomStructs)
 
     # --------------------------- INFO functions ------------------------------
     def _summary(self):
