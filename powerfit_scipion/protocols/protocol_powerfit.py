@@ -45,7 +45,9 @@ class PowerfitProtRigidFit(ProtFitting3D):
     def _defineParams(self, form):
         form.addSection(label='Input')
         form.addParam('inputPDB', PointerParam, pointerClass='AtomStruct',
-                      label="Input PDBx/mmCIF", important=True)
+                      label="Input atomic structure to fit", important=True,
+		              help="Input PDBx/mmCIF object to be fitted to the "
+                           "next volume.")
         form.addParam('inputVol', PointerParam, pointerClass='Volume',
                       label="Input volume", important=True, allowsNull=True)
         form.addParam('resolution', FloatParam, default=6,
