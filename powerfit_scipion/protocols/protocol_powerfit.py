@@ -30,7 +30,7 @@ from pyworkflow.em.convert import Ccp4Header
 from pyworkflow.em.viewers.viewer_chimera import Chimera
 from pyworkflow.protocol.constants import LEVEL_ADVANCED
 from pyworkflow.utils import *
-
+from pyworkflow.em.convert.atom_struct import AtomicStructHandler
 
 class PowerfitProtRigidFit(ProtFitting3D):
     """ Protocol for fitting a PDB into a 3D volume
@@ -91,13 +91,26 @@ class PowerfitProtRigidFit(ProtFitting3D):
         sampling = volume.getSamplingRate()
         origin = volume.getOrigin(force=True).getShifts()
 
+        # provide PDB file instead of CIF
+        # power fit does not process some types of CIF files
+        atomStructPath = self.inputPDB.get().getFileName()
+        if atomStructPath.endswith(".cif"):
+            baseName = basename(atomStructPath)
+            localPath = os.path.abspath(self._getExtraPath(baseName))
+            localPath = localPath.replace(".cif", ".pdb")
+
+            # normalize input format
+            aSH = AtomicStructHandler()
+            aSH.read(atomStructPath)
+            aSH.write(localPath)
+            atomStructPath = localPath
+
         # powerfit needs offset in origin
         Ccp4Header.fixFile(volume.getFileName(), localInputVol,
                         origin, sampling, Ccp4Header.ORIGIN)
         args = "%s %f %s -d %s -p %d -a %f -n %d" % (localInputVol,
                                                      self.resolution,
-                                                     self.inputPDB.get().
-                                                     getFileName(),
+                                                     atomStructPath,
                                                      self._getExtraPath(),
                                                      self.numberOfThreads,
                                                      self.angleStep,
