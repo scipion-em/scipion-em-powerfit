@@ -34,5 +34,6 @@ Alternatively, in devel mode:
     - ./scipion test powerfit_scipion.tests.test_powerfit
 
 ![Builbot_URL]: http://heisenberg.cnb.csic.es:9980/#/builders/30
+
 ![alt text](http://heisenberg.cnb.csic.es:9980/badges/powerfit_devel.svg)
 
