@@ -40,12 +40,12 @@ setup(
     # For a discussion on single-sourcing the version across setup.py and the
     # project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='1.0.4',  # Required
+    version='1.0.5',  # Required
 
     # This is a one-line description or tagline of what your project does. This
     # corresponds to the "Summary" metadata field:
     # https://packaging.python.org/specifications/core-metadata/#summary
-    description='Powerfit ready to use in scipion.',  # Required
+    description='Powerfit ready to use in Scipion.',  # Required
 
     # This is an optional longer description of your project that represents
     # the body of text which users will see when they visit PyPI.
@@ -65,7 +65,7 @@ setup(
 
     # This should be your name or the name of the organization which owns the
     # project.
-    author='I2PC',  # Optional
+    author='I2PC, Roberto Marabini and Marta Martinez',  # Optional
 
     # This should be a valid email address corresponding to the author listed
     # above.
