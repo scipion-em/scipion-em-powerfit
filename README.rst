@@ -56,9 +56,9 @@ To check the installation, simply run the following Scipion test:
 
 
 
-========
+=========
 Protocols
-========
+=========
 
 * powerfit-scipion: *Powerfit* program functionality. 
 
