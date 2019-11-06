@@ -2,7 +2,7 @@
 Powerfit scipion plugin
 =======================
 
-Program from Alexandre Bonvin and Joao Rodrigues (Utrecht University) for rigid body fitting of an atomic structure into a 3D volume. See `Powerfit home page <http://www.bonvinlab.org/education/powerfit>`_ for details).
+Program from Alexandre Bonvin and Gydo van Zundert (Utrecht University) for rigid body fitting of an atomic structure into a 3D volume. See `Powerfit home page <http://www.bonvinlab.org/education/powerfit>`_ for details).
 
 
 ===================
