@@ -1,0 +1,6 @@
+ 2005  vi setup.py
+ 2006  rm -rf dist
+ 2007  mkdir dist
+ 2008  python setup.py sdist
+twine upload dist/* -c "scipion-2.0"
+
