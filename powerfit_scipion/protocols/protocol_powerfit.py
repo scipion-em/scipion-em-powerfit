@@ -30,15 +30,6 @@ from pyworkflow.em.convert import Ccp4Header
 from pyworkflow.em.viewers.viewer_chimera import Chimera
 from pyworkflow.protocol.constants import LEVEL_ADVANCED
 from pyworkflow.utils import *
-# Horrible hack to release this plugin before scipion next version.
-# TODO: remove when possible
-from pyworkflow import LAST_VERSION, VERSION_2_0
-if LAST_VERSION == VERSION_2_0 :
-    from pyworkflow.utils import importFromPlugin
-    AtomicStructHandler = importFromPlugin('chimera.atom_struct',
-                                           'AtomicStructHandler')
-else:
-    from pyworkflow.em.convert.atom_struct import AtomicStructHandler
 
 class PowerfitProtRigidFit(ProtFitting3D):
     """ Protocol for fitting a PDB into a 3D volume
@@ -88,6 +79,19 @@ class PowerfitProtRigidFit(ProtFitting3D):
 
     # --------------------------- STEPS functions -----------------------------
     def powerfitWrapper(self):
+        # Horrible hack to release this plugin before scipion next version.
+        # TODO: remove when possible
+        # keep this import protected inside the function otherwise it fails
+        # if uploaded before chimera plugin is read
+        # This import should be removed for scipio greater than 2.0
+        from pyworkflow import LAST_VERSION, VERSION_2_0
+        if LAST_VERSION == VERSION_2_0:
+            from pyworkflow.utils import importFromPlugin
+            AtomicStructHandler = importFromPlugin('chimera.atom_struct',
+                                                   'AtomicStructHandler')
+        else:
+            from pyworkflow.em.convert.atom_struct import AtomicStructHandler
+
         _localInputVol = "volume.mrc"
         localInputVol = self._getExtraPath(_localInputVol)
         if self.inputVol.get() is None:
