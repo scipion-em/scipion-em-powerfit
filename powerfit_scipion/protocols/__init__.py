@@ -24,4 +24,4 @@
 # *
 # **************************************************************************
 
-from protocol_powerfit import PowerfitProtRigidFit
+from .protocol_powerfit import PowerfitProtRigidFit

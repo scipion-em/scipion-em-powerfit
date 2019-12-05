@@ -1,2 +1,2 @@
 
-from viewer_powerfit import PowerfitProtRigidFitViewer
+from .viewer_powerfit import PowerfitProtRigidFitViewer

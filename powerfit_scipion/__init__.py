@@ -28,26 +28,27 @@ This sub-package contains data and protocol classes
 wrapping Powerfit programs https://github.com/haddocking/powerfit
 """
 import os
-import pyworkflow.em
-from pyworkflow.utils import Environ
+import pwem
+import pyworkflow.utils as pwutils
 from powerfit_scipion.constants import POWERFIT_HOME, V2_0
 
 
 _logo = "powerfit_logo.gif"
 
 
-class Plugin(pyworkflow.em.Plugin):
+class Plugin(pwem.Plugin):
     _homeVar = POWERFIT_HOME
 
     @classmethod
-    def getEnviron(cls):
+    def getEnviron(cls, first=True):
         """ Setup the environment variables needed to launch powerfit. """
-        environ = Environ(os.environ)
+        # environ = Environ(os.environ)
+        environ = pwutils.Environ()
         environ.update({
             'PATH': Plugin.getHome(),
             'LD_LIBRARY_PATH': str.join(cls.getHome(), 'powerfitlib')
                                + ":" + cls.getHome(),
-        }, position=Environ.BEGIN)
+        }, position=pwutils.Environ.BEGIN)
 
         return environ
 
@@ -66,4 +67,4 @@ class Plugin(pyworkflow.em.Plugin):
                        default=True)
 
 
-pyworkflow.em.Domain.registerPlugin(__name__)
+pwem.Domain.registerPlugin(__name__)

@@ -25,9 +25,12 @@
 # *
 # **************************************************************************
 import os
-from pyworkflow.em import *
-from pyworkflow.em.convert import Ccp4Header
-from pyworkflow.em.viewers.viewer_chimera import Chimera
+from pwem import *
+from pwem.convert import Ccp4Header
+from pwem.objects import AtomStruct
+from pwem.protocols import ProtFitting3D, PointerParam, StringParam, basename
+from pwem.viewers.viewer_chimera import Chimera
+from pyworkflow.protocol import FloatParam, IntParam, BooleanParam, Float
 from pyworkflow.protocol.constants import LEVEL_ADVANCED
 from pyworkflow.utils import *
 
@@ -90,16 +93,16 @@ class PowerfitProtRigidFit(ProtFitting3D):
             AtomicStructHandler = importFromPlugin('chimera.atom_struct',
                                                    'AtomicStructHandler')
         else:
-            from pyworkflow.em.convert.atom_struct import AtomicStructHandler
+            from pwem.convert.atom_struct import AtomicStructHandler
 
         _localInputVol = "volume.mrc"
         localInputVol = self._getExtraPath(_localInputVol)
         if self.inputVol.get() is None:
             volume = self.inputPDB.get().getVolume()
-            print "Volume: Volume associated to atomic structure %s\n" % volume
+            print("Volume: Volume associated to atomic structure %s\n" % volume)
         else:
             volume = self.inputVol.get()
-            print "Volume: Input volume %s\n" % volume
+            print("Volume: Input volume %s\n" % volume)
         sampling = volume.getSamplingRate()
         origin = volume.getOrigin(force=True).getShifts()
 

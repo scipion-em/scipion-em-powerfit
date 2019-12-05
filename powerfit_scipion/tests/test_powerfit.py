@@ -26,21 +26,10 @@
 # volume or a unit cell extracted from a map volume. Here we are going to test
 # the protocol of rigid fitting powerfit
 
-import os.path
 from pyworkflow.tests import *
-from pyworkflow.utils import importFromPlugin
-from pyworkflow.em.protocol.protocol_import import (ProtImportPdb,
-                                                    ProtImportVolumes)
-
+from pwem.protocols.protocol_import import (ProtImportPdb,
+                                           ProtImportVolumes)
 from powerfit_scipion.protocols import PowerfitProtRigidFit
-
-# ChimeraProtRigidFit = importFromPlugin('chimera.protocols.protocol_fit',
-#                                        'ChimeraProtRigidFit', doRaise=True)
-#
-# CootRefine = importFromPlugin('ccp4.protocols.protocol_coot', 'CootRefine',
-#                               doRaise=True)
-# CCP4ProtRunRefmac = importFromPlugin('ccp4.protocols.protocol_refmac',
-#                                      'CCP4ProtRunRefmac')
 
 
 class TestImportBase(BaseTest):
@@ -122,7 +111,7 @@ class TestPowerFit(TestImportData):
     """
 
     def testPowerFitFromVolAndPDB(self):
-        print "Run powerfit from imported volume and pdb file"
+        print("Run powerfit from imported volume and pdb file")
         # This test checks that powerfit runs with a volume provided
         # directly as inputVol
 
@@ -141,7 +130,7 @@ class TestPowerFit(TestImportData):
                              "There was a problem with the alignment")
 
     def testPowerFitFromVolAndmmCIF(self):
-        print "Run powerfit from imported volume and mmCIF file"
+        print("Run powerfit from imported volume and mmCIF file")
         # This test checks that powerfit runs with a volume provided
         # directly as inputVol
 
@@ -160,7 +149,7 @@ class TestPowerFit(TestImportData):
                              "There was a problem with the alignment")
 
     def testPowerFitFromVolAssocToPDB(self):
-        print "Run powerfit from imported pdb file and volume associated"
+        print("Run powerfit from imported pdb file and volume associated")
         # This test checks that powerfit runs when a volume is provided
         # associated to the imput PDB and not directly as inputVol
 
@@ -178,7 +167,7 @@ class TestPowerFit(TestImportData):
                              "There was a problem with the alignment")
 
     def testPowerFitFromVolAssocTommCIF(self):
-        print "Run powerfit from imported mmCIF file and volume associated"
+        print("Run powerfit from imported mmCIF file and volume associated")
         # This test checks that powerfit runs when a volume is provided
         # associated to the imputPDB and not directly as inputVol
 
@@ -196,8 +185,8 @@ class TestPowerFit(TestImportData):
                              "There was a problem with the alignment")
 
     def testPowerFitFromPDBWithoutVol(self):
-        print "Run powerfit from imported pdb file without imported or " \
-              "pdb-associated volume"
+        print("Run powerfit from imported pdb file without imported or " \
+              "pdb-associated volume")
         # This test corroborates that powerfit does not run unless a volume
         # is provided (directly as inputVol or associated to the imputPDB)
 
@@ -217,15 +206,15 @@ class TestPowerFit(TestImportData):
             self.launchProtocol(protPower)
         except Exception as e:
             self.assertTrue(True)
-            print "This test should return a error message as '" \
-                  " ERROR running protocol scipion - rigid fit"
+            print("This test should return a error message as '" \
+                  " ERROR running protocol scipion - rigid fit")
 
             return
         self.assertTrue(False)
 
     def testPowerFitFrommmCIFWithoutVol(self):
-        print "Run powerfit from imported mmCIF file without imported or " \
-              "mmCIF-associated volume"
+        print("Run powerfit from imported mmCIF file without imported or " \
+              "mmCIF-associated volume")
         # This test corroborates that powerfit does not run unless a volume
         # is provided (directly as inputVol or associated to the imputPDB)
 
@@ -245,8 +234,8 @@ class TestPowerFit(TestImportData):
             self.launchProtocol(protPower)
         except Exception as e:
             self.assertTrue(True)
-            print "This test should return a error message as '" \
-                  " ERROR running protocol scipion - rigid fit"
+            print("This test should return a error message as '" \
+                  " ERROR running protocol scipion - rigid fit")
 
             return
         self.assertTrue(False)
