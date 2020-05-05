@@ -28,7 +28,7 @@ This sub-package contains data and protocol classes
 wrapping Powerfit programs https://github.com/haddocking/powerfit
 """
 import os
-import pyworkflow.em
+import pwem
 from pyworkflow.utils import Environ
 from powerfit_scipion.constants import POWERFIT_HOME, V2_0
 
@@ -66,4 +66,4 @@ class Plugin(pyworkflow.em.Plugin):
                        default=True)
 
 
-pyworkflow.em.Domain.registerPlugin(__name__)
+pwem.Domain.registerPlugin(__name__)
