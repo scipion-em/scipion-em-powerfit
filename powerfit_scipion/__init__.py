@@ -62,7 +62,7 @@ class Plugin(pwem.Plugin):
                        tar='powerfit.tgz',
                        targets=['powerfit-2.0*'],
                        pythonMod=True,
-                       deps=['numpy', 'scipy', 'fftw3'],
+                       deps=['numpy', 'scipy'],
                        default=True)
 
 
