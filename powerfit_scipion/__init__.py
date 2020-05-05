@@ -36,7 +36,7 @@ from powerfit_scipion.constants import POWERFIT_HOME, V2_0
 _logo = "powerfit_logo.gif"
 
 
-class Plugin(pyworkflow.em.Plugin):
+class Plugin(pwem.Plugin):
     _homeVar = POWERFIT_HOME
 
     @classmethod
