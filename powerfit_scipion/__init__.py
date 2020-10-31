@@ -33,11 +33,13 @@ import pyworkflow.utils as pwutils
 from powerfit_scipion.constants import POWERFIT_HOME, V2_0
 
 
+__version__ = '3.0.0'
 _logo = "powerfit_logo.gif"
 
 
 class Plugin(pwem.Plugin):
     _homeVar = POWERFIT_HOME
+    _url = "https://github.com/scipion-em/scipion-em-powerfit"
 
     @classmethod
     def getEnviron(cls, first=True):
@@ -64,6 +66,3 @@ class Plugin(pwem.Plugin):
                        targets=['powerfit-2.0*'],
                        pythonMod=True,
                        default=True)
-
-
-pwem.Domain.registerPlugin(__name__)
