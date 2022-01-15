@@ -55,7 +55,7 @@ class PowerfitProtRigidFitViewer(ProtocolViewer):
 
     def _visualizeFit(self, e=None):
         import os
-        fnCmd = self.protocol._getExtraPath('chimera_%d.cmd' %
+        fnCmd = self.protocol._getExtraPath('chimera_%d.cxc' %
                                             self.modelNumber)
         if os.path.exists(fnCmd):
             return [ChimeraView(fnCmd)]

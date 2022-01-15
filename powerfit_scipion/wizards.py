@@ -28,8 +28,7 @@ This module implement some wizards
 """
 
 
-from pwem.wizard import *
-from pwem.wizards import PDBVolumeWizard
+from pwem.wizards import *
 
 from powerfit_scipion.protocols import PowerfitProtRigidFit
 
