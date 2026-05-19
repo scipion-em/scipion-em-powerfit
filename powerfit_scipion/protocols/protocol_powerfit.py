@@ -46,6 +46,74 @@ class PowerfitProtRigidFit(ProtFitting3D):
     See documentation at:
        http://www.bonvinlab.org/education/powerfit
     """
+
+    """
+        Wrapper for XLM Tools used to evaluate protein structural models
+        against experimental crosslink and monolink data. The protocol
+        processes atomic structures, computes crosslink-based scores,
+        and generates annotated structural outputs for structural analysis.
+
+        AI Generated:
+
+        XLM Analysis (ProtWLM) — User Manual
+
+            Overview
+
+            The XLM Analysis protocol evaluates protein structural models
+            using experimental crosslinking and monolinking information.
+            Its main purpose is to determine how well atomic structures
+            satisfy experimentally derived spatial restraints. In
+            structural biology workflows, this analysis is especially
+            useful for validating protein conformations, comparing
+            alternative assemblies, and assessing the biological
+            plausibility of macromolecular models.
+
+            Inputs and General Workflow
+
+            The protocol requires a list of experimental crosslinks
+            together with one or more atomic structures in PDB or CIF
+            format. CIF files are automatically converted into PDB
+            format to ensure compatibility with downstream processing.
+            Users may optionally specify the voxel size used during
+            the calculations.
+
+            During execution, the protocol runs XLM Tools together with
+            Jwalk and DEPTH calculations to estimate residue accessibility
+            and evaluate whether the experimental crosslink restraints
+            are compatible with the provided structures. The analysis
+            generates scoring information and annotated structural models
+            for each input structure.
+
+            Outputs and Interpretation
+
+            After completion, the protocol produces crosslink-annotated
+            atomic structures that can be used for structural inspection
+            and validation. The generated outputs help identify regions
+            that satisfy or violate the experimental restraints, providing
+            insight into the quality and consistency of the structural
+            models.
+
+            The protocol also extracts scoring statistics from the
+            execution logs, including resolution-related measurements
+            derived from the crosslink analysis.
+
+            Practical Recommendations
+
+            XLM analysis is particularly valuable for validating
+            structural models obtained from cryo-EM, integrative
+            modeling, or comparative structural studies. Reliable
+            experimental crosslink datasets and properly prepared
+            atomic structures are essential for obtaining meaningful
+            biological interpretations.
+
+            Final Perspective
+
+            The protocol provides a practical framework for integrating
+            crosslinking mass spectrometry data with structural biology
+            workflows, helping users evaluate the spatial consistency,
+            structural reliability, and biological relevance of protein
+            models and macromolecular assemblies.
+        """
     _label = 'structure to volume fitting'
 
     # --------------------------- DEFINE param functions ----------------------
