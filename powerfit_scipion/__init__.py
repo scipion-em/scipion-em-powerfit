@@ -28,26 +28,33 @@ This sub-package contains data and protocol classes
 wrapping Powerfit programs https://github.com/haddocking/powerfit
 """
 import os
+
 import pwem
-from pyworkflow.utils import Environ
+import pyworkflow.utils as pwutils
 from powerfit_scipion.constants import POWERFIT_HOME, V2_0
 
 
+__version__ = '3.0.0'
 _logo = "powerfit_logo.gif"
 
 
 class Plugin(pwem.Plugin):
     _homeVar = POWERFIT_HOME
+    _url = "https://github.com/scipion-em/scipion-em-powerfit"
 
     @classmethod
-    def getEnviron(cls):
+    def _defineVariables(cls, version=V2_0):
+        cls._defineEmVar(POWERFIT_HOME, 'powerfit-' + version)
+
+    @classmethod
+    def getEnviron(cls, first=True):
         """ Setup the environment variables needed to launch powerfit. """
-        environ = Environ(os.environ)
+        environ = pwutils.Environ(os.environ)
         environ.update({
             'PATH': Plugin.getHome(),
             'LD_LIBRARY_PATH': str.join(cls.getHome(), 'powerfitlib')
                                + ":" + cls.getHome(),
-        }, position=Environ.BEGIN)
+        }, position=pwutils.Environ.BEGIN)
 
         return environ
 
@@ -56,13 +63,28 @@ class Plugin(pwem.Plugin):
         return cls.getActiveVersion().startswith(V2_0)
 
     @classmethod
+    def getPowerfitActivation(cls, version=V2_0):
+        return "conda activate powerfit-" + version
+
+    @classmethod
+    def getPowerfitProgram(cls):
+        cmd = '%s %s && ' % (cls.getCondaActivationCmd(), cls.getPowerfitActivation())
+        cmd += 'powerfit '
+        return cmd
+
+    @classmethod
     def defineBinaries(cls, env):
+        def getCondaInstallation(version=V2_0):
+            installationCmd = cls.getCondaActivationCmd()
+            installationCmd += 'conda create -y -n powerfit-' + version + ' python=2.7 && '
+            installationCmd += cls.getPowerfitActivation(version) + ' && '
+            installationCmd += 'conda install -y -c anaconda scipy numpy && '
+            installationCmd += 'python setup.py install'
+            return installationCmd
+        commands = [(getCondaInstallation(V2_0), 'powerfit.egg-info')]
         """ Define required binaries in the given Environment. """
         env.addPackage('powerfit', version='2.0',
                        tar='powerfit.tgz',
                        targets=['powerfit-2.0*'],
-                       pythonMod=True,
+                       commands=commands,
                        default=True)
-
-
-pwem.Domain.registerPlugin(__name__)

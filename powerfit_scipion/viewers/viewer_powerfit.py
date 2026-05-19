@@ -26,8 +26,8 @@
 # **************************************************************************
 
 from pyworkflow.viewer import DESKTOP_TKINTER, WEB_DJANGO, ProtocolViewer
-from pyworkflow.em.viewers import ChimeraView, ObjectView
-from pyworkflow.em.viewers.showj import MODE, MODE_MD, ORDER, VISIBLE, SORT_BY
+from pwem.viewers import ChimeraView, ObjectView
+from pwem.viewers.showj import MODE, MODE_MD, ORDER, VISIBLE, SORT_BY
 from powerfit_scipion.protocols import PowerfitProtRigidFit
 import pyworkflow.protocol.params as params
 
@@ -55,7 +55,7 @@ class PowerfitProtRigidFitViewer(ProtocolViewer):
 
     def _visualizeFit(self, e=None):
         import os
-        fnCmd = self.protocol._getExtraPath('chimera_%d.cmd' %
+        fnCmd = self.protocol._getExtraPath('chimera_%d.cxc' %
                                             self.modelNumber)
         if os.path.exists(fnCmd):
             return [ChimeraView(fnCmd)]

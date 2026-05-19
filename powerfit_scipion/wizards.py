@@ -28,7 +28,8 @@ This module implement some wizards
 """
 
 
-from pyworkflow.em.wizard import *
+from pwem.wizards import *
+
 from powerfit_scipion.protocols import PowerfitProtRigidFit
 
 #===============================================================================

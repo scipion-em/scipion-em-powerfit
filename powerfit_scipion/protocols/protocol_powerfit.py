@@ -24,12 +24,20 @@
 # *  e-mail address 'scipion@cnb.csic.es'
 # *
 # **************************************************************************
-import os
-from pyworkflow.em import *
-from pyworkflow.em.convert import Ccp4Header
-from pyworkflow.em.viewers.viewer_chimera import Chimera
+
+
+from pwem.convert import Ccp4Header
+from pwem.objects import AtomStruct
+from pwem.protocols import ProtFitting3D, PointerParam, StringParam, basename
+from pwem.viewers.viewer_chimera import Chimera
+from pwem.convert.atom_struct import AtomicStructHandler
+
+from pyworkflow.protocol import FloatParam, IntParam, BooleanParam, Float
 from pyworkflow.protocol.constants import LEVEL_ADVANCED
 from pyworkflow.utils import *
+
+import powerfit_scipion
+
 
 class PowerfitProtRigidFit(ProtFitting3D):
     """ Protocol for fitting a PDB into a 3D volume
@@ -38,15 +46,82 @@ class PowerfitProtRigidFit(ProtFitting3D):
     See documentation at:
        http://www.bonvinlab.org/education/powerfit
     """
-    _label = 'powerfit'
+
+    """
+        Wrapper for XLM Tools used to evaluate protein structural models
+        against experimental crosslink and monolink data. The protocol
+        processes atomic structures, computes crosslink-based scores,
+        and generates annotated structural outputs for structural analysis.
+
+        AI Generated:
+
+        XLM Analysis (ProtWLM) — User Manual
+
+            Overview
+
+            The XLM Analysis protocol evaluates protein structural models
+            using experimental crosslinking and monolinking information.
+            Its main purpose is to determine how well atomic structures
+            satisfy experimentally derived spatial restraints. In
+            structural biology workflows, this analysis is especially
+            useful for validating protein conformations, comparing
+            alternative assemblies, and assessing the biological
+            plausibility of macromolecular models.
+
+            Inputs and General Workflow
+
+            The protocol requires a list of experimental crosslinks
+            together with one or more atomic structures in PDB or CIF
+            format. CIF files are automatically converted into PDB
+            format to ensure compatibility with downstream processing.
+            Users may optionally specify the voxel size used during
+            the calculations.
+
+            During execution, the protocol runs XLM Tools together with
+            Jwalk and DEPTH calculations to estimate residue accessibility
+            and evaluate whether the experimental crosslink restraints
+            are compatible with the provided structures. The analysis
+            generates scoring information and annotated structural models
+            for each input structure.
+
+            Outputs and Interpretation
+
+            After completion, the protocol produces crosslink-annotated
+            atomic structures that can be used for structural inspection
+            and validation. The generated outputs help identify regions
+            that satisfy or violate the experimental restraints, providing
+            insight into the quality and consistency of the structural
+            models.
+
+            The protocol also extracts scoring statistics from the
+            execution logs, including resolution-related measurements
+            derived from the crosslink analysis.
+
+            Practical Recommendations
+
+            XLM analysis is particularly valuable for validating
+            structural models obtained from cryo-EM, integrative
+            modeling, or comparative structural studies. Reliable
+            experimental crosslink datasets and properly prepared
+            atomic structures are essential for obtaining meaningful
+            biological interpretations.
+
+            Final Perspective
+
+            The protocol provides a practical framework for integrating
+            crosslinking mass spectrometry data with structural biology
+            workflows, helping users evaluate the spatial consistency,
+            structural reliability, and biological relevance of protein
+            models and macromolecular assemblies.
+        """
+    _label = 'structure to volume fitting'
 
     # --------------------------- DEFINE param functions ----------------------
     def _defineParams(self, form):
         form.addSection(label='Input')
         form.addParam('inputPDB', PointerParam, pointerClass='AtomStruct',
                       label="Input atomic structure to fit", important=True,
-		              help="Input PDBx/mmCIF object to be fitted to the "
-                           "next volume.")
+                      help="Input PDBx/mmCIF object to be fitted to the next volume.")
         form.addParam('inputVol', PointerParam, pointerClass='Volume',
                       label="Input volume", important=True, allowsNull=True)
         form.addParam('resolution', FloatParam, default=6,
@@ -79,27 +154,14 @@ class PowerfitProtRigidFit(ProtFitting3D):
 
     # --------------------------- STEPS functions -----------------------------
     def powerfitWrapper(self):
-        # Horrible hack to release this plugin before scipion next version.
-        # TODO: remove when possible
-        # keep this import protected inside the function otherwise it fails
-        # if uploaded before chimera plugin is read
-        # This import should be removed for scipio greater than 2.0
-        from pyworkflow import LAST_VERSION, VERSION_2_0
-        if LAST_VERSION == VERSION_2_0:
-            from pyworkflow.utils import importFromPlugin
-            AtomicStructHandler = importFromPlugin('chimera.atom_struct',
-                                                   'AtomicStructHandler')
-        else:
-            from pyworkflow.em.convert.atom_struct import AtomicStructHandler
-
         _localInputVol = "volume.mrc"
         localInputVol = self._getExtraPath(_localInputVol)
         if self.inputVol.get() is None:
             volume = self.inputPDB.get().getVolume()
-            print "Volume: Volume associated to atomic structure %s\n" % volume
+            print("Volume: Volume associated to atomic structure %s\n" % volume)
         else:
             volume = self.inputVol.get()
-            print "Volume: Input volume %s\n" % volume
+            print("Volume: Input volume %s\n" % volume)
         sampling = volume.getSamplingRate()
         origin = volume.getOrigin(force=True).getShifts()
 
@@ -132,7 +194,8 @@ class PowerfitProtRigidFit(ProtFitting3D):
             args += " -l"
         if self.doCoreWeight:
             args += " -cw"
-        self.runJob('powerfit', args)
+        self.runJob(powerfit_scipion.Plugin.getPowerfitProgram(), args,
+                    env=powerfit_scipion.Plugin.getEnviron())
 
         # Construct the chimera viewers
         dim = volume.getDim()[0]
@@ -144,13 +207,13 @@ class PowerfitProtRigidFit(ProtFitting3D):
         for n in range(1, self.nModels.get() + 1):
             fnPdb = self._getExtraPath("fit_%d.pdb" % n)
             if exists(fnPdb):
-                fnCmd = self._getExtraPath("chimera_%d.cmd" % n)
+                fnCmd = self._getExtraPath("chimera_%d.cxc" % n)
                 fhCmd = open(fnCmd, 'w')
                 fhCmd.write("open %s\n" % _localInputVol)
                 fhCmd.write("open lcc.mrc\n")
                 fhCmd.write("open fit_%d.pdb\n" % n)
-                fhCmd.write("vol #1 hide\n")
-                fhCmd.write("scolor #0 volume #1 cmap rainbow\n")
+                fhCmd.write("volume #2 hide\n")
+                fhCmd.write("color sample #1 map #2 palette rainbow\n")
                 fhCmd.write("open %s\n" % bildFileName)
                 fhCmd.close()
 
@@ -222,8 +285,6 @@ class PowerfitProtRigidFit(ProtFitting3D):
 
     def _validate(self):
         errors = []
-        if which('powerfit') is '':
-            errors.append('You should have the program powerfit in the PATH')
         # Check that the input volume exist
         if (not self.inputPDB.get().hasVolume()) \
                 and (self.inputVol.get() is None):

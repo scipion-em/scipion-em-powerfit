@@ -24,4 +24,4 @@
 # *
 # **************************************************************************
 
-from test_powerfit import TestImportBase, TestImportData, TestPowerFit
+from .test_powerfit import TestImportBase, TestImportData, TestPowerFit

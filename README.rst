@@ -1,9 +1,3 @@
-
-=======================
-support for this plugin has been dropped starting with scipion 3.0
-=======================
-
-
 =======================
 Powerfit scipion plugin
 =======================
